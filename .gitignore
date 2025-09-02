@@ -1,0 +1,7 @@
+.env*
+*~ 
+*#
+.Rhistory
+*.emacs*
+.directory
+tmp

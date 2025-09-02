@@ -13,12 +13,19 @@ OSO-API_prod:
 	# Set secure permissions
 	sudo chown -R root:root /var/www/OSO-API
 	sudo chmod -R 755 /var/www/OSO-API
-	# sudo chown root:www-data /var/www/OSO-API/app.py
-	# sudo chmod 750 /var/www/OSO-API/app.py
-	# sudo chown root:www-data /var/www/OSO-API/app.wsgi
-	# sudo chmod 750 /var/www/OSO-API/app.wsgi
+
+	sudo chown root:www-data /var/www/OSO-API/API.py
+	sudo chmod 750 /var/www/OSO-API/API.py
 	sudo chown root:www-data /var/www/OSO-API/.env
 	sudo chmod 440 /var/www/OSO-API/.env
 
+	sudo chown root:root /var/www/OSO-API/add_api_key.py
+	sudo chmod 700 /var/www/OSO-API/add_api_key.py
+	sudo chown root:www-data /etc/OSO-API/api_keys.json
+	sudo chmod 640 /etc/OSO-API/api_keys.json
+
 	# Restart Apache to apply changes
 	sudo systemctl restart apache2
+
+OSO-API_keygen:
+	sudo python3 /var/www/OSO-API/add_api_key.py $(NAME)
