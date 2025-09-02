@@ -5,6 +5,7 @@ OSO-API_prod:
 	# Synchronize to /var/www/OSO-API while preserving important local data
 	sudo rsync -av --delete \
 		--exclude='.env' \
+		--exclude='venv' \
 		tmp_OSO-API/ /var/www/OSO-API/
 
 	# Cleanup the temp directory
@@ -26,4 +27,4 @@ OSO-API_prod:
 	sudo systemctl restart apache2
 
 OSO-API_keygen:
-	sudo python3 /var/www/OSO-API/add_api_key.py $(NAME)
+	/var/www/OSO-API/venv/bin/python /var/www/OSO-API/add_api_key.py $(NAME)

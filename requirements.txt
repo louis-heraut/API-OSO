@@ -4,4 +4,4 @@ gunicorn
 rasterio
 shapely
 pydantic
-python-dotenv
+dotenv
