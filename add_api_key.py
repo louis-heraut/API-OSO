@@ -5,7 +5,7 @@ import os
 import stat
 from dotenv import load_dotenv
 
-load_dotenv("/var/www/OSO-API")
+load_dotenv()
 API_KEYS_PATH = os.environ.get('API_KEYS_PATH')
 
 def ensure_file():
