@@ -26,10 +26,50 @@ pip install -r /var/www/OSO-API/requirements.txt
 
 
 
-# test
-uvicorn main:app --host 127.0.0.1 --port 8000
+sudo nano /etc/apache2/sites-available/OSO-API.conf
+<VirtualHost *:80>
+    ServerName 147.100.222.13
+
+    # Proxy all requests to Gunicorn/Uvicorn
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:8000/
+    ProxyPassReverse / http://127.0.0.1:8000/
+
+    # Serve static files in /output
+    Alias /files/ /var/www/OSO-API/output/
+    <Directory /var/www/OSO-API/output/>
+        Require all granted
+        Options Indexes FollowSymLinks
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/OSO-API_error.log
+    CustomLog ${APACHE_LOG_DIR}/OSO-API_access.log combined
+</VirtualHost>
+
+sudo a2ensite OSO-API
+sudo systemctl reload apache2
 
 
+
+sudo nano /etc/systemd/system/OSO-API.service
+[Unit]
+Description=Gunicorn instance to serve OSO API
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/OSO-API
+EnvironmentFile=/var/www/OSO-API/.env
+ExecStart=/var/www/OSO-API/venv/bin/gunicorn -c /var/www/OSO-API/gunicorn_conf.py main:app
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start OSO-API
+sudo systemctl enable OSO-API
+sudo systemctl status OSO-API
 
 
 

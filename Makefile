@@ -15,8 +15,8 @@ OSO-API_prod:
 	sudo chown -R root:root /var/www/OSO-API
 	sudo chmod -R 755 /var/www/OSO-API
 
-	sudo chown root:www-data /var/www/OSO-API/API.py
-	sudo chmod 750 /var/www/OSO-API/API.py
+	sudo chown root:www-data /var/www/OSO-API/main.py
+	sudo chmod 750 /var/www/OSO-API/main.py
 	sudo chown root:www-data /var/www/OSO-API/.env
 	sudo chmod 440 /var/www/OSO-API/.env
 
