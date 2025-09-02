@@ -27,4 +27,4 @@ OSO-API_prod:
 	sudo systemctl restart apache2
 
 OSO-API_keygen:
-	/var/www/OSO-API/venv/bin/python /var/www/OSO-API/add_api_key.py $(NAME)
+	sudo /var/www/OSO-API/venv/bin/python /var/www/OSO-API/add_api_key.py $(NAME)
