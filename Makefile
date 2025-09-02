@@ -21,8 +21,6 @@ OSO-API_prod:
 
 	sudo chown root:root /var/www/OSO-API/add_api_key.py
 	sudo chmod 700 /var/www/OSO-API/add_api_key.py
-	sudo chown root:www-data /etc/OSO-API/api_keys.json
-	sudo chmod 640 /etc/OSO-API/api_keys.json
 
 	# Restart Apache to apply changes
 	sudo systemctl restart apache2
