@@ -25,6 +25,16 @@ pip install --upgrade pip
 pip install -r /var/www/OSO-API/requirements.txt
 
 
+
+# test
+uvicorn main:app --host 127.0.0.1 --port 8000
+
+
+
+
+
+# gen key
 make OSO-API_keygen NAME=alice
+
 
 
