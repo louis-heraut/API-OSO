@@ -142,31 +142,6 @@ async def clip_polygon(req: ClipRequest, request: Request):
     if not os.path.exists(src_path):
         raise HTTPException(status_code=404, detail=f"Le fichier de données pour l'année {req.year.value} est introuvable.")
 
-    # # 3. Découpage du raster
-    # try:
-    #     with rasterio.open(src_path) as src:
-    #         geom_in_crs = transform_geom("EPSG:4326", src.crs, mapping(poly))
-    #         out_image, out_transform = mask(src, [geom_in_crs], crop=True, nodata=src.nodata)
-    #         out_meta = src.meta.copy()
-    #         out_meta.update({
-    #             "driver": "GTiff",
-    #             "height": out_image.shape[1],
-    #             "width": out_image.shape[2],
-    #             "transform": out_transform,
-    #         })
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=f"Erreur lors du traitement du raster : {e}")
-
-    # # 4. Génération du fichier de sortie
-    # base_name = os.path.splitext(req.filename.strip())[0] if req.filename else "clip"
-    # timestamp = datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
-    # unique_suffix = uuid.uuid4().hex[:8]
-    # unique_name = f"{base_name}_{timestamp}_{unique_suffix}.tif"
-    # out_path = os.path.join(OUTPUT_DIR, unique_name)
-
-    # with rasterio.open(out_path, "w", **out_meta) as dst:
-    #     dst.write(out_image)
-
     # 3. Découpage du raster
     try:
         with rasterio.open(src_path) as src:
@@ -179,10 +154,8 @@ async def clip_polygon(req: ClipRequest, request: Request):
                 "width": out_image.shape[2],
                 "transform": out_transform,
             })
-
-            # Récupérer le colormap tant que src est ouvert
             cmap = None
-            if out_meta.get("count", 1) == 1:  # seulement pour les rasters 1 bande
+            if out_meta.get("count", 1) == 1:
                 try:
                     cmap = src.colormap(1)
                 except ValueError:
@@ -200,10 +173,8 @@ async def clip_polygon(req: ClipRequest, request: Request):
 
     with rasterio.open(out_path, "w", **out_meta) as dst:
         dst.write(out_image)
-        # Réécrire le colormap si présent
         if cmap:
             dst.write_colormap(1, cmap)
-
 
     # 5. Planification de la suppression et construction de la réponse
     asyncio.create_task(_remove_file_after_delay(out_path))
