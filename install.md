@@ -25,6 +25,10 @@ pip install --upgrade pip
 pip install -r /var/www/OSO-API/requirements.txt
 
 
+data on https://geodes-portal.cnes.fr/
+scp ./data/* user@server-ip:~/
+sudo mv ~/data* /var/www/OSO-API/data/
+
 
 sudo nano /etc/apache2/sites-available/OSO-API.conf
 <VirtualHost *:80>
@@ -70,6 +74,7 @@ sudo systemctl daemon-reload
 sudo systemctl start OSO-API
 sudo systemctl enable OSO-API
 sudo systemctl status OSO-API
+
 
 
 
