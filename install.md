@@ -1,3 +1,5 @@
+Instalation Guide
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install apache2 libapache2-mod-proxy-uwsgi python3 python3-pip python3.10-venv -y
 
