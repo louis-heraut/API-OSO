@@ -31,13 +31,14 @@ FRANCE_METRO_BBOX = box(-5.5, 41.0, 9.8, 51.5)
 
 # Années pour lesquelles des données sont disponibles
 class AvailableYears(int, Enum):
+    y2016 = 2016
+    y2017 = 2017
     y2018 = 2018
     y2019 = 2019
     y2020 = 2020
     y2021 = 2021
-    # y2022 = 2022
-    # y2023 = 2023
-    # y2024 = 2024
+    y2022 = 2022
+    y2023 = 2023
 
 # ─── Application FastAPI ────────────────────────────────────────────────────
 app = FastAPI(
@@ -132,7 +133,7 @@ async def clip_polygon(req: ClipRequest, request: Request):
         raise HTTPException(status_code=400, detail=str(e))
 
     # 2. Vérification du fichier source
-    src_path = os.path.join(DATA_DIR, f"OSO_{req.year.value}.tif")
+    src_path = os.path.join(DATA_DIR, f"OCS_{req.year.value}.tif")
     if not os.path.exists(src_path):
         raise HTTPException(status_code=404, detail=f"Le fichier de données pour l'année {req.year.value} est introuvable.")
 
