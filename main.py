@@ -164,8 +164,17 @@ async def clip_polygon(req: ClipRequest, request: Request):
     unique_name = f"{base_name}_{timestamp}_{unique_suffix}.tif"
     out_path = os.path.join(OUTPUT_DIR, unique_name)
 
+    # with rasterio.open(out_path, "w", **out_meta) as dst:
+        # dst.write(out_image)
     with rasterio.open(out_path, "w", **out_meta) as dst:
         dst.write(out_image)
+        if "count" in out_meta and out_meta["count"] == 1:
+            try:
+                cmap = src.colormap(1)
+                dst.write_colormap(1, cmap)
+            except ValueError:
+                pass
+
 
     # 5. Planification de la suppression et construction de la réponse
     asyncio.create_task(_remove_file_after_delay(out_path))
