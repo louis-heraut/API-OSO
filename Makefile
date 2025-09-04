@@ -35,11 +35,11 @@ OSO-API_prod:
 
 	# Restart Apache to apply changes
 	sudo systemctl restart apache2
+	sudo systemctl restart OSO-API
 
 OSO-API_test:
 	source /var/www/OSO-API/venv/bin/activate
 	sudo -u www-data /var/www/OSO-API/venv/bin/gunicorn -c /var/www/OSO-API/gunicorn_conf.py main:app
-
 
 OSO-API_keygen:
 	sudo /var/www/OSO-API/venv/bin/python /var/www/OSO-API/add_api_key.py $(NAME)

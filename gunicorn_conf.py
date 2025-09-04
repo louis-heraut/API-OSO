@@ -1,5 +1,4 @@
-# Adresse et port sur lesquels Gunicorn écoutera
+# gunicorn_conf.py
 bind = "127.0.0.1:8000"
-
-# Nombre de processus workers.
-workers = 4 
+workers = 4
+worker_class = "uvicorn.workers.UvicornWorker"
