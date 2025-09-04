@@ -15,9 +15,8 @@ make API-OSO_prod
 
 sudo mv /var/www/API-OSO/env.dist /var/www/API-OSO/.env
 sudo nano /var/www/API-OSO/.env
-
-cd ~
-make API-OSO_prod
+sudo mkdir /var/www/API-OSO/data/
+sudo mkdir /var/www/API-OSO/output/
 
 sudo python3 -m venv /var/www/API-OSO/venv
 sudo chown -R vmadmin:vmadmin /var/www/API-OSO/venv
@@ -25,12 +24,10 @@ source /var/www/API-OSO/venv/bin/activate
 pip install --upgrade pip
 pip install -r /var/www/API-OSO/requirements.txt
 
-
 data on https://geodes-portal.cnes.fr/
-scp ./data/* user@server-ip:~/
-sudo mkdir /var/www/API-OSO/data/
-sudo mv ~/data* /var/www/API-OSO/data/
-sudo mkdir /var/www/API-OSO/output/
+scp ./data/*.tif user@server-ip:~/
+sudo mv ~/*.tif /var/www/API-OSO/data/
+
 
 sudo nano /etc/apache2/sites-available/api-oso.conf
 <VirtualHost *:80>
@@ -78,6 +75,9 @@ sudo systemctl enable api-oso
 sudo systemctl status api-oso
 
 
+
+cd ~
+make API-OSO_prod
 
 
 # gen key

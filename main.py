@@ -45,6 +45,11 @@ app = FastAPI(
     title="API Découpe GeoTIFF",
     description="Un service pour découper des rasters OSO selon un polygone. L'authentification par clé API est requise.",
     version="1.1.0",
+    contact={
+        "name": "Louis Héraut (INRAE, UR RiverLy, Villeurbanne, France)",
+        "email": "louis.heraut@inrae.fr",
+        "url": "https://github.com/louis-heraut/API-OSO"
+    }
 )
 
 app.mount("/files", StaticFiles(directory=OUTPUT_DIR), name="files")
