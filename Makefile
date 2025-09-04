@@ -6,6 +6,7 @@ OSO-API_prod:
 	sudo rsync -av --delete \
 		--exclude='.env' \
 		--exclude='venv' \
+		--exclude='data' \
 		tmp_OSO-API/ /var/www/OSO-API/
 
 	# Cleanup the temp directory
@@ -14,14 +15,14 @@ OSO-API_prod:
 	# Set secure permissions
 	sudo chown -R root:root /var/www/OSO-API
 	sudo chmod -R 755 /var/www/OSO-API
-
 	sudo chown root:www-data /var/www/OSO-API/main.py
 	sudo chmod 750 /var/www/OSO-API/main.py
-	sudo chown root:www-data /var/www/OSO-API/.env
-	sudo chmod 440 /var/www/OSO-API/.env
-
+	sudo chown root:www-data /var/www/OSO-API/gunicorn_conf.py
+	sudo chmod 750 /var/www/OSO-API/gunicorn_conf.py
 	sudo chown root:root /var/www/OSO-API/add_api_key.py
 	sudo chmod 700 /var/www/OSO-API/add_api_key.py
+	sudo chown root:www-data /var/www/OSO-API/.env
+	sudo chmod 440 /var/www/OSO-API/.env
 
 	# Restart Apache to apply changes
 	sudo systemctl restart apache2
