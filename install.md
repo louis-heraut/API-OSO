@@ -1,24 +1,12 @@
 # API-OSO Installation Guide
 This guide walks you through installing and configuring **API-OSO** on a Linux server with Apache, Python, and Gunicorn.
 
-
 ## Update & Install Required Packages
 First, update your system and install the necessary dependencies:
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install apache2 libapache2-mod-proxy-uwsgi python3 python3-pip python3.10-venv -y
 ```
-
-
-## Enable Apache Modules
-Enable the required Apache modules for proxying requests and handling headers:
-```bash
-sudo a2enmod proxy
-sudo a2enmod proxy_http
-sudo a2enmod headers
-sudo systemctl restart apache2
-```
-
 
 ## Clone the Repository & Build
 Clone the **API-OSO** repository and build the production setup:
@@ -29,7 +17,6 @@ mv ./API-OSO/Makefile ./
 make API-OSO_prod
 ```
 
-
 ## Configure Environment & Directories
 Prepare environment variables and create necessary folders:
 ```bash
@@ -38,8 +25,7 @@ sudo nano /var/www/API-OSO/.env
 sudo mkdir /var/www/API-OSO/data/
 sudo mkdir /var/www/API-OSO/output/
 ```
-Edit the `.env` file as needed (e.g., database credentials, API keys).
-
+Edit the `.env` file as needed.
 
 ## Set Up Python Virtual Environment
 Create and activate a virtual environment, then install dependencies:
@@ -51,7 +37,6 @@ pip install --upgrade pip
 pip install -r /var/www/API-OSO/requirements.txt
 ```
 
-
 ## Download & Move Data
 Fetch data from [Geodes Portal](https://geodes-portal.cnes.fr/) and move it to the correct directory:
 ```bash
@@ -59,6 +44,14 @@ scp ./data/*.tif user@server-ip:~/
 sudo mv ~/*.tif /var/www/API-OSO/data/
 ```
 
+## Enable Apache Modules
+Enable the required Apache modules for proxying requests and handling headers:
+```bash
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod headers
+sudo systemctl restart apache2
+```
 
 ## Configure Apache Virtual Host
 Create a new Apache site configuration:
@@ -89,7 +82,6 @@ sudo a2ensite api-oso
 sudo systemctl reload apache2
 ```
 
-
 ## Create a Systemd Service for Gunicorn
 Create and edit the service file:
 ```bash
@@ -117,14 +109,12 @@ sudo systemctl enable api-oso
 sudo systemctl status api-oso
 ```
 
-
-## Rebuild Production (Optional)
-If you need to rebuild the project later:
+## Finalisation
+Rebuild the whole app:
 ```bash
 cd ~
 make API-OSO_prod
 ```
-
 
 ## Generate a Key
 Generate a key for a user (example: `alice`):
