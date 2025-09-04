@@ -27,8 +27,9 @@ pip install -r /var/www/OSO-API/requirements.txt
 
 data on https://geodes-portal.cnes.fr/
 scp ./data/* user@server-ip:~/
+sudo mkdir /var/www/OSO-API/data/
 sudo mv ~/data* /var/www/OSO-API/data/
-
+sudo mkdir /var/www/OSO-API/output/
 
 sudo nano /etc/apache2/sites-available/OSO-API.conf
 <VirtualHost *:80>
